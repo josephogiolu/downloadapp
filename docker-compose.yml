@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  # PostgreSQL service
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: downloadapp
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+  # Java application service
+  java-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8282:8282"
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/downloadapp
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
